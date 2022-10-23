@@ -1,4 +1,4 @@
-s// PENSEZ A INDIQUER PAR DES COMMENTAIRES LES MODIFICATIONS APPORTEES A CE SQUELETTE AU FUR
+// PENSEZ A INDIQUER PAR DES COMMENTAIRES LES MODIFICATIONS APPORTEES A CE SQUELETTE AU FUR
 // ET A MESURE DE L'EVOLUTION DU CODE DEMANDEE DANS LE TP.
 
 /**
@@ -6,14 +6,14 @@ s// PENSEZ A INDIQUER PAR DES COMMENTAIRES LES MODIFICATIONS APPORTEES A CE SQUE
  * Une instance d'Usine possede un stock de pieces a transformer ainsi qu'un stock
  * de pieces finies initialement vide. Chacun des deux ateliers transforme la moitie
  * des unites du stock a transformer.
- * La methode fonctionner() fait travailler successivement les deux ateliers et affiche
+ * La methode fonctionner() fait run successivement les deux ateliers et affiche
  * l'etat des stocks a la fin des travaux.
  */
 class Usine {
 	/**
 	 * Stock de pieces a transformer
 	 */
-    Stock stockDepart = new Stock("de depart", 10);
+    Stock stockDepart = new Stock("de depart", 10000);
     /**
      * Stock de pieces transformees
      */
@@ -21,8 +21,8 @@ class Usine {
     /**
      * Ateliers de transformation
      */
-    Atelier atelier1 = new Atelier(stockDepart, stockFin, 5);
-    Atelier atelier2 = new Atelier(stockDepart, stockFin, 5);
+    Atelier atelier1 = new Atelier(stockDepart, stockFin, 5000);
+    Atelier atelier2 = new Atelier(stockDepart, stockFin, 5000);
 
     /**
      * Effectuer le travail de l'usine
@@ -30,8 +30,15 @@ class Usine {
      * l'evolution de l'etat des stocks.
      */
     public void fonctionner() {
-    		atelier1.travailler();
-    		atelier2.travailler();
+    		atelier1.start();
+    		atelier2.start();
+            
+    		try {
+                atelier1.join();
+                atelier2.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
     		stockDepart.afficher();
     		stockFin.afficher();
     }
@@ -42,7 +49,8 @@ class Usine {
      */
     public static void main(String[] args) {
 
-
+        Usine usine = new Usine();
+        usine.fonctionner();
 
     }
 }

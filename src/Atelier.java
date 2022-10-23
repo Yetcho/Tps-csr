@@ -5,10 +5,10 @@
  * Les objets instances de la classe Atelier representent des ateliers de transformation.
  * Le fonctionnement est le suivant : l'appel a transformer retire un element du stock A,
  * attend 100 ms, puis ajoute un element au stock B.
- * La methode travailler() effectue n transformations successives, n etant un parametre
+ * La methode run() effectue n transformations successives, n etant un parametre
  * fourni a la creation de l'objet.
  */
-class Atelier {
+class Atelier extends Thread {
 
 	/**
 	 * Le stock de fourniture de depart
@@ -20,7 +20,7 @@ class Atelier {
     private Stock B;
     /**
      * Le nombre de transformations effectuees lors d'un appel a
-     * la methode travailler().
+     * la methode run().
      */
     private int nbTransfo;
 
@@ -28,7 +28,7 @@ class Atelier {
      * Construit un objet instance d'Atelier
      * @param A Le stock de pieces de depart
      * @param B Le stock de pieces transformees
-     * @param nbTransfo Le nombre de transformations par appel a travailler()
+     * @param nbTransfo Le nombre de transformations par appel a run()
      */
     public Atelier(Stock A, Stock B, int nbTransfo) {
         this.A = A;
@@ -41,14 +41,15 @@ class Atelier {
      */
     public void transformer() {
         A.destocker();
-        try { Thread.sleep(100); } catch(InterruptedException e) {}
+
+        // try { Thread.sleep(100); } catch(InterruptedException e) {}
         B.stocker();
     }
 
     /**
      * Effectue nbTransfo transformations
      */
-    public void travailler() {
+    public void run() {
         for(; nbTransfo > 0; nbTransfo--)
             transformer();
     }
