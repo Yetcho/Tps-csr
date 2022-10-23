@@ -33,12 +33,19 @@ class Stock {
     synchronized public void stocker() {
         nbPieces++;
         System.out.println(Thread.currentThread().getName()+ " a stocké une nouvelle piece, le stock est de : "+ nbPieces);
+        notify();
     }
 
     /**
      * Saisir une piece sur le haut de la pile de pieces
      */
     synchronized public void destocker() {
+        if(nbPieces == 0){
+            try {
+                wait();
+            } catch (Exception e) {
+            }
+        }
         nbPieces--;
         System.out.println(Thread.currentThread().getName()+ " a destocké une piece, il reste : "+ nbPieces + " dans le stock");
     }
