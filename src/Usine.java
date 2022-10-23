@@ -13,16 +13,19 @@ class Usine {
 	/**
 	 * Stock de pieces a transformer
 	 */
-    Stock stockDepart = new Stock("de depart", 10000);
+    Stock stockDepart = new Stock("de depart", 10);
     /**
      * Stock de pieces transformees
      */
+    Stock stockIntermediare = new Stock("Intermediaire", 0);
+    /**
+    */
     Stock stockFin = new Stock("d'arrivee", 0);
     /**
      * Ateliers de transformation
      */
-    Atelier atelier1 = new Atelier(stockDepart, stockFin, 5000);
-    Atelier atelier2 = new Atelier(stockDepart, stockFin, 5000);
+    Atelier atelier1 = new Atelier(stockDepart, stockIntermediare, 10);
+    Atelier atelier2 = new Atelier(stockIntermediare, stockFin, 10);
 
     /**
      * Effectuer le travail de l'usine
@@ -37,9 +40,11 @@ class Usine {
                 atelier1.join();
                 atelier2.join();
             } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
     		stockDepart.afficher();
+            stockIntermediare.afficher();
     		stockFin.afficher();
     }
 
