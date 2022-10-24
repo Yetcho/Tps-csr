@@ -10,7 +10,7 @@ class SystemeEmprunt {
 
 	private Site[] sites = new Site[NB_SITES];
 	private Client[] clients = new Client[NB_CLIENTS];
-	private Camion camion = null;
+	//private Camion camion = null;
 
 	/* Constructeur du systeme d'emprunt */
 	SystemeEmprunt() {
@@ -28,10 +28,21 @@ class SystemeEmprunt {
 		}
 
 		/* Instanciation du camion */
-		camion = new Camion(sites);
+		Camion camion = new Camion(sites);
 
     /* Démarrage du camion et des clients */
-    /* TODO */
+	for(int i = 0 ; i < clients.length ; i++){
+		clients[i].start();
+		camion.start();
+
+		try {
+			clients[i].join();
+			camion.join();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
   }
 
   public static void main(String[] args) {
